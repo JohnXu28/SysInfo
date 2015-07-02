@@ -1,8 +1,8 @@
-#include "stdafx.h"
+#include <stdafx.h>
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
-#include <Config\GetOpt.h>
+#include <SysInfo\GetOpt.h>
 #include <iostream>
 #include <fstream>
 using namespace std;
