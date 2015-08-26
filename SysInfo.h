@@ -48,8 +48,7 @@
 		//You can using these command to find who alloc the momory.
 		//VC will pause when alloc memory 100 times.
 		//_CrtSetBreakAlloc(100) or _crtBreakAlloc = 100; 
-	#else
-		#define DBG_Printf(fmt, ...)sfdgsdfgsdfg
+	#else		
 		#define DETECT_MEMORY_LEAKS 
 	#endif //_DEBUG
 #endif//WIN32
