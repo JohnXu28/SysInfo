@@ -1,10 +1,14 @@
 #include <stdafx.h>
 #include <errno.h>
-#include <stdio.h>
 #include <string.h>
 #include <SysInfo\GetOpt.h>
 #include <iostream>
-#include <fstream>
+#include <ostream>
+#include <climits>
+#include <cstdio>
+#include <exception>
+#include <type_traits>
+#include <cerrno>
 using namespace std;
 
 const char Option = '-';
