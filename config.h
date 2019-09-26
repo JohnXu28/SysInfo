@@ -14,7 +14,11 @@
 *
 *******************************************|********************************************/
 #pragma once
+
+#ifdef WIN32
 #pragma warning(disable:4996) //for function itoa.
+#endif //WIN32
+
 #include "Sysinfo.h"
 #include <string>
 #include <time.h>
@@ -26,7 +30,7 @@ using namespace std;
 #ifdef UNICODE
 #define INSTR LPCWSTR
 #else
-#define INSTR LPSTR
+#define INSTR LPCSTR
 #endif//UNICODE
 
 namespace CONFIG{

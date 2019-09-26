@@ -117,7 +117,7 @@ int ConfigINI::GetInt(INSTR Section, INSTR Key, int Default)
 int ConfigINI::GetString(INSTR Section, INSTR Key, INSTR Default, INSTR lpBuf)
 {
 	if(m_Path.empty() != true)	
-		return GetPrivateProfileString(Section, Key, Default, lpBuf, 128, m_Path.c_str());
+		return GetPrivateProfileString(Section, Key, Default, (LPSTR)lpBuf, 128, m_Path.c_str());
 	else
 		return 0;
 }
@@ -190,7 +190,7 @@ int ConfigReg::GetString(INSTR Section, INSTR Key, INSTR Default, INSTR lpBuf)
 	if(RegCreateKey(HKEY_LOCAL_MACHINE, path.c_str(), &hkey) == ERROR_SUCCESS)
 	{
         if(RegQueryValueEx(hkey, Key, nullptr, (LPDWORD)&DataType, (LPBYTE)lpBuf, (LPDWORD)&strlength) != ERROR_SUCCESS)
-			memcpy(lpBuf, Default, MaxStrLength);
+			memcpy((void*)lpBuf, (void*)Default, MaxStrLength);
 		else
 			ret = 1;
 		RegCloseKey(hkey);	
@@ -273,9 +273,9 @@ int ConfigTXT::GetString(INSTR Section, INSTR Key, INSTR Default, INSTR lpBuf)
   string temp_section(Section), temp_key(Key);
  map<string, string> map_temp = txt_data[temp_section];
  if(map_temp.count(temp_key))
-	 memcpy(lpBuf, map_temp[temp_key].c_str(), 128);
+	 memcpy((void*)lpBuf, (void*)map_temp[temp_key].c_str(), 128);
  else
-	 memcpy(lpBuf, Default, 128);
+	 memcpy((void*)lpBuf, Default, 128);
   
  return 0;
 }

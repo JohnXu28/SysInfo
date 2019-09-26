@@ -1,7 +1,14 @@
 #ifndef __CTime__
 #define __CTime__
 
+#ifdef WIN32
 #include <windows.h>
+#define CurrentTime		GetTickCount64()
+#else
+#include "SysInfo.h"
+#define CurrentTime		time(NULL)
+#endif //WIN32
+
 #include <time.h>
 #include <fstream>
 #include <iostream>
@@ -68,7 +75,7 @@ class TimeCount
 
 		void Start(const char *str = nullptr)
 		{
-			m_Start = GetTickCount64();
+			m_Start = CurrentTime;
 			if(str != nullptr)
 				cout << m_ID << "(Start) : " << str << endl;
 //			else
@@ -93,7 +100,7 @@ class TimeCount
 
 		ULONGLONG Pause(const char *str = nullptr)
 		{
-			m_Stop  = GetTickCount64();
+			m_Stop  = CurrentTime;
 			ULONGLONG count = m_Stop - m_Start; 
 			m_Total += count;		
 
@@ -116,6 +123,7 @@ class TimeCount
 				cout << "Total : " << m_Total << endl;
 		}
 
+#ifdef WIN32
 		void GetTime(int &Day, int &Month, int &Year, int &Hour, int &Minute, int &Sec)
 		{
 			SYSTEMTIME st;	
@@ -129,7 +137,10 @@ class TimeCount
 			Minute = st.wMinute;
 			Sec = st.wSecond;			
 		}
-
+#else
+		void GetTime(int &Day, int &Month, int &Year, int &Hour, int &Minute, int &Sec)
+		{}
+#endif //WIN32
 	private:
 		ULONGLONG m_Start;
 		ULONGLONG m_Stop;
