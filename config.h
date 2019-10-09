@@ -19,7 +19,7 @@
 #pragma warning(disable:4996) //for function itoa.
 #endif //WIN32
 
-#include "Sysinfo.h"
+#include "SysInfo.h"
 #include <string>
 #include <time.h>
 #include<map>

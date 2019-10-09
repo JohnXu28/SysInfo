@@ -1,4 +1,4 @@
-#include <StdAfx.h>
+#include <stdafx.h>
 #include <SysInfo\config.h>
 #include <windows.h>
 
