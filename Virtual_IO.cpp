@@ -52,6 +52,8 @@ void* IO_File::GetHandle()
 IO_fstream::IO_fstream(const char *FileName, int option)
 {
 	m_File = new fstream(FileName, ios::binary | option);
+	if (m_File->fail() == true)
+		Close();
 }
 
 IO_fstream::~IO_fstream()
@@ -61,25 +63,46 @@ IO_fstream::~IO_fstream()
 
 void IO_fstream::Close()
 {
-	m_File->close();
-	delete m_File;
-	m_File = NULL;
+	if (m_File != nullptr)
+	{
+		m_File->close();
+		delete m_File;
+		m_File = nullptr;
+	}
 }
 
 size_t IO_fstream::Read(LPBYTE buffer, size_t size, size_t count)
 {
-	m_File->read((char*)buffer, (int)(size * count)); return size * count;
+	if (m_File != nullptr)
+	{
+		m_File->read((char*)buffer, (int)(size * count));
+		return size * count;
+	}
+	else
+		return -1;
 }
 
 size_t IO_fstream::Write(LPBYTE buffer, size_t size, size_t count)
 {
-	m_File->write((char*)buffer, (int)(size*count)); return (size_t)size*count;
+	if (m_File != nullptr)
+	{
+		m_File->write((char*)buffer, (int)(size * count));
+		return (size_t)size * count;
+	}
+	else
+		return 0;
 }
 
 //Not check yet
 int IO_fstream::Seek(int offset, int origin)
 {
-	m_File->seekp(offset, origin); return 0;
+	if (m_File != nullptr)
+	{
+		m_File->seekp(offset, origin);
+		return 0;
+	}
+	else
+		return -1;
 }
 
 void* IO_fstream::GetHandle()
