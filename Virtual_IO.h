@@ -3,20 +3,21 @@
 #include <fstream>
 using namespace std;
 
-class IO_Interface
+class IO_INTERFACE
 {
 public:
-	IO_Interface(){};
-	virtual ~IO_Interface(){};
+	IO_INTERFACE(){};
+	virtual ~IO_INTERFACE(){};
 	virtual size_t Read(LPBYTE buffer, size_t size, size_t count) = 0;
 	virtual size_t Write(LPBYTE buffer, size_t size, size_t count) = 0;
 	virtual int Seek(int offset, int origin) = 0;
+	virtual size_t Tell() = 0;
 	virtual void* GetHandle() = 0;
 	virtual void Close() = 0; //Same as Reset
 
 };
 
-class IO_File: public IO_Interface
+class IO_File: public IO_INTERFACE
 {
 public:
 	IO_File(const char *FileName, const char *Option);
@@ -24,6 +25,7 @@ public:
 	size_t Read(LPBYTE buffer, size_t size, size_t count);;
 	size_t Write(LPBYTE buffer, size_t size, size_t count);
 	int Seek(int offset, int origin);
+	size_t Tell();
 	void* GetHandle();
 	void Close();
 
@@ -32,7 +34,7 @@ private:
 	FILE *m_File;
 };
 
-class IO_fstream: public IO_Interface
+class IO_fstream: public IO_INTERFACE
 {
 public:
 	IO_fstream(const char *FileName, int option);
@@ -40,6 +42,7 @@ public:
 	size_t Read(LPBYTE buffer, size_t size, size_t count);
 	size_t Write(LPBYTE buffer, size_t size, size_t count);
 	int Seek(int offset, int origin);
+	size_t Tell();
 	void* GetHandle();
 	void Close(); //Same as Reset
 
@@ -48,13 +51,13 @@ private:
 	fstream *m_File;
 };
 
-class IO_Buf: public IO_Interface
+class IO_Buf: public IO_INTERFACE
 {
 public:
 	IO_Buf(LPBYTE Buffer, size_t Size);
 	size_t Read(LPBYTE buffer, size_t size, size_t count);
 	size_t Write(LPBYTE buffer, size_t size, size_t count);
-	size_t Tell(){return m_Current - m_Start;};
+	size_t Tell();
 	int Seek(int offset, int origin);
 	void* GetHandle();
 	void Close(); //Same as Reset

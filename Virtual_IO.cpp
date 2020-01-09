@@ -41,6 +41,11 @@ int IO_File::Seek(int offset, int origin)
 	return fseek(m_File, offset, origin);
 }
 
+size_t IO_File::Tell()
+{
+	return ftell(m_File);
+}
+
 void* IO_File::GetHandle()
 {
 	return (void*)m_File;
@@ -73,13 +78,17 @@ void IO_fstream::Close()
 
 size_t IO_fstream::Read(LPBYTE buffer, size_t size, size_t count)
 {
+	size_t TotalSize = 0;
+	
 	if (m_File != nullptr)
 	{
-		m_File->read((char*)buffer, (int)(size * count));
-		return size * count;
+		auto start = m_File->tellg();
+		m_File->read((char*)buffer, size * count);
+		auto end = m_File->tellg();
+		TotalSize = (size_t)(end - start);
 	}
-	else
-		return -1;
+	
+	return TotalSize;
 }
 
 size_t IO_fstream::Write(LPBYTE buffer, size_t size, size_t count)
@@ -95,15 +104,22 @@ size_t IO_fstream::Write(LPBYTE buffer, size_t size, size_t count)
 
 //Not check yet
 int IO_fstream::Seek(int offset, int origin)
-{
+{	
 	if (m_File != nullptr)
 	{
-		m_File->seekp(offset, origin);
+		m_File->seekg(offset, origin);
 		return 0;
 	}
 	else
 		return -1;
 }
+
+size_t IO_fstream::Tell()
+{
+	auto pos = m_File->tellg();
+	return (size_t)pos;
+}
+
 
 void* IO_fstream::GetHandle()
 {
@@ -145,6 +161,8 @@ size_t IO_Buf::Write(LPBYTE buffer, size_t size, size_t count)
 
 int IO_Buf::Seek(int offset, int origin)
 {
+	int ret = 0;
+
 	if (origin == SEEK_SET)
 		m_Current = m_Start + offset;
 	else if (origin == SEEK_CUR)
@@ -152,12 +170,14 @@ int IO_Buf::Seek(int offset, int origin)
 	else if (origin == SEEK_END)
 		m_Current = m_End + offset;
 
+	//Overflow
 	if (offset > 0)
 	{
 		if (m_Current > m_End)
 		{
 			offset = (int)(m_Current - m_End);
 			m_Current = m_End;
+			ret = -1;
 		}
 	}
 	else//offset <= 0
@@ -166,9 +186,15 @@ int IO_Buf::Seek(int offset, int origin)
 		{
 			offset = (int)(m_Current - m_Start);
 			m_Current = m_Start;
+			ret = -1;
 		}
 	}
 	return offset;
+}
+
+size_t IO_Buf::Tell()
+{
+	return m_Current - m_Start; 
 }
 
 void* IO_Buf::GetHandle()
@@ -182,4 +208,3 @@ void IO_Buf::Close()
 	m_Current = NULL;
 	m_End = NULL;
 }
-
