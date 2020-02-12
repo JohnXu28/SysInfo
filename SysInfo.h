@@ -120,16 +120,17 @@ inline void SwapWORD_Buf(LPWORD lpBuf, int Size)
 #endif //HiByteFirst   
 
 //For C++ 11
-#define ENABLE_SHARED_POINTER
+#define ENABLE_SMART_POINTER
 
-#ifdef ENABLE_SHARED_POINTER
-	#define SHARED_POINTER
-	#define SHARED_PTR(CLASS, ptr) shared_ptr<CLASS>(ptr)
+#ifdef ENABLE_SMART_POINTER
+	#define SMART_POINTER
+	//#define SMART_PTR(CLASS, ptr) shared_ptr<CLASS>(ptr)
+	#define SMART_PTR(CLASS, ptr) unique_ptr<CLASS>(ptr)
 	#define GetPtr(ptr) ptr.get()
 
 #else
-	#define SHARED_PTR(CLASS, ptr) ptr
+	#define SMART_PTR(CLASS, ptr) ptr
 	#define GetPtr(ptr) ptr
-#endif //SHARED_POINTER
+#endif //SMART_POINTER
 
 #endif //_SYSINFO_H__
