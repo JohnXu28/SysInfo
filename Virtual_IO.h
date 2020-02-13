@@ -64,7 +64,7 @@ public:
 
 private:
 	IO_Buf(){};//Force using IO_Buf(Buffer, size);
-	LPBYTE m_Start, m_End, m_Current;	
+	LPBYTE m_Start = nullptr, m_End = nullptr, m_Current = nullptr;
 };
 
 

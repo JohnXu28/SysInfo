@@ -49,35 +49,35 @@ Config   Export Funstion Show Message
 ********************************************************************/
 extern "C" int ConfigFile2(INSTR FileName)
 {
-	cout << "ConfigFile : " << FileName << endl;
+	cout << endl << "ConfigFile : " << FileName << endl;
 	return con.Initial(FileName);
 }
 
 extern "C" int ConfigGetInt2(INSTR Section, INSTR Key, int Default)
 {
 	int ret = con.GetInt(Section, Key, Default);
-	cout << "Get " << "[ " << Section << " : " << Key << " ] = " << ret << endl;
+	cout << endl <<  "Get " << "[ " << Section << " : " << Key << " ] = " << ret << endl;
 	return ret;
 }
 
 extern "C" int ConfigGetString2(INSTR Section, INSTR Key, INSTR Default, INSTR lpBuf)
 {
 	int ret = con.GetString(Section, Key, Default, lpBuf);
-	cout << "Get " << "[ " << Section << " : " << Key << " ] = " << lpBuf << endl;
+	cout << endl << "Get " << "[ " << Section << " : " << Key << " ] = " << lpBuf << endl;
 	return ret;
 }
 
 extern "C" int ConfigSetInt2(INSTR Section, INSTR Key, int Default)
 {
 	int ret = con.SetInt(Section, Key, Default);
-	cout << "Set " << "[ " << Section << " : " << Key << " ] = " << ret << endl;
+	cout << endl << "Set " << "[ " << Section << " : " << Key << " ] = " << ret << endl;
 	return ret;
 }
 
 extern "C" int ConfigSetString2(INSTR Section, INSTR Key, INSTR lpBuf)
 {
 	int ret = con.SetString(Section, Key, lpBuf);
-	cout << "Set " << "[ " << Section << " : " << Key << " ] = " << lpBuf << endl;
+	cout << endl << "Set " << "[ " << Section << " : " << Key << " ] = " << lpBuf << endl;
 	return ret;
 }
 

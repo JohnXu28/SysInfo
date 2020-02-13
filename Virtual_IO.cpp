@@ -83,7 +83,7 @@ size_t IO_fstream::Read(LPBYTE buffer, size_t size, size_t count)
 	if (m_File != nullptr)
 	{
 		auto start = m_File->tellg();
-		m_File->read((char*)buffer, size * count);
+		m_File->read((char*)buffer, (long long)size * count);
 		auto end = m_File->tellg();
 		TotalSize = (size_t)(end - start);
 	}
