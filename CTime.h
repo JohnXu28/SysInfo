@@ -106,6 +106,8 @@ class TimeCount
 
 			if(str != nullptr)
 				cout << m_ID << "(Pause) : " << str  << "(count : " << count << ")"<< endl;
+			else
+				cout << m_ID << "(Pause) : (count : " << count << ")" << endl;
 
 			return m_Total;
 
@@ -113,7 +115,10 @@ class TimeCount
 		}
 
 		void Reset()
-		{m_Total = 0;}
+		{
+			m_Total = 0;
+			m_Start = CurrentTime;
+		}
 
 		void DisPlay(const char *str = nullptr)
 		{
