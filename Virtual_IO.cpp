@@ -95,7 +95,7 @@ size_t IO_fstream::Write(LPBYTE buffer, size_t size, size_t count)
 {
 	if (m_File != nullptr)
 	{
-		m_File->write((char*)buffer, (int)(size * count));
+		m_File->write((char*)buffer, (streamsize)size * (streamsize)count);
 		return (size_t)size * count;
 	}
 	else
