@@ -36,7 +36,7 @@ extern "C" int ConfigGetString(INSTR Section, INSTR Key, INSTR Default, INSTR lp
 
 extern "C" int ConfigSetInt(INSTR Section, INSTR Key, int Value)
 {
-	return con.GetInt(Section, Key, Value);
+	return con.SetInt(Section, Key, Value);
 }
 
 extern "C" int ConfigSetString(INSTR Section, INSTR Key, INSTR lpBuf)
