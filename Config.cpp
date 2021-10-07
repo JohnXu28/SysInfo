@@ -149,7 +149,7 @@ int ConfigINI::SetInt(INSTR Section, INSTR Key, int Value)
 	{
 		INSTR TempCh[16];
 		string tempstr = string(itoa(Value, (char*)TempCh, 10));
-		return WritePrivateProfileString(Section, Key, m_Path.c_str(), m_Path.c_str());
+		return WritePrivateProfileString(Section, Key, tempstr.c_str(), m_Path.c_str());
 	}
 	else
 		return -1;
