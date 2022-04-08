@@ -1,7 +1,7 @@
 #ifndef __CTime__
 #define __CTime__
 
-#ifdef WIN32
+#if defined(WIN32) || defined(X64)
 #include <windows.h>
 #define CurrentTime		GetTickCount64()
 #else
@@ -128,7 +128,7 @@ class TimeCount
 				cout << "Total : " << m_Total << endl;
 		}
 
-#ifdef WIN32
+#if defined(WIN32) || defined(X64)
 		void GetTime(int &Day, int &Month, int &Year, int &Hour, int &Minute, int &Sec)
 		{
 			SYSTEMTIME st;	

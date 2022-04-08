@@ -15,7 +15,7 @@
 *******************************************|********************************************/
 #pragma once
 
-#ifdef WIN32
+#if defined(WIN32) || defined(X64)
 #pragma warning(disable:4996) //for function itoa.
 #endif //WIN32
 
