@@ -102,7 +102,7 @@ class TimeCount
 		{
 			m_Stop  = CurrentTime;
 			ULONGLONG count = m_Stop - m_Start; 
-			m_Total += count;		
+			m_Total = count;		
 
 			if(str != nullptr)
 				cout << m_ID << "(Pause) : " << str  << "(count : " << count << ")"<< endl;
