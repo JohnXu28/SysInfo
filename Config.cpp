@@ -168,7 +168,12 @@ Config Reg
 ********************************************************************/
 ConfigReg::ConfigReg()
 {
-	m_Path = "Software\\Avision\\R025_AV\\";
+#ifdef X64
+	m_Path = "SOFTWARE\\WOW6432Node\\";
+#else	
+	m_Path = "SOFTWARE\\";
+#endif //X64
+	m_Init = 0;
 }
 
 ConfigReg::~ConfigReg()
@@ -176,19 +181,28 @@ ConfigReg::~ConfigReg()
 
 int ConfigReg::Initial(INSTR Path)//Does't check anything in this version.
 {
-	if (Path != nullptr)
-		m_Path = m_Path + string(Path);
+	if (m_Init == 0)
+	{
+		if (Path != nullptr)
+		{
+			m_Path = m_Path + string(Path);
+			m_Init = 1;
+		}
+	}
 	return 0;
 }
 
 int ConfigReg::GetInt(INSTR Section, INSTR Key, int Default)
 {
 	HKEY hkey;
+	
 	if (Section == nullptr)
 		return -1;
 	string path = m_Path + string(Section);
 	int Data = -1;	int strlength = 4;   int DataType = REG_DWORD;
-	if (RegCreateKey(HKEY_LOCAL_MACHINE, path.c_str(), &hkey) == ERROR_SUCCESS)
+	LSTATUS ret = RegCreateKey(HKEY_CURRENT_USER, path.c_str(), &hkey);
+	
+	if (ret == ERROR_SUCCESS)
 	{
 		if (RegQueryValueEx(hkey, Key, nullptr, (LPDWORD)&DataType, (LPBYTE)&Data, (LPDWORD)&strlength) != ERROR_SUCCESS)
 			Data = Default;
@@ -209,7 +223,7 @@ int ConfigReg::GetString(INSTR Section, INSTR Key, INSTR Default, INSTR lpBuf)
 
 	int ret = -1; int strlength = 128; int DataType = REG_SZ;
 	string path = m_Path + string(Section);
-	if (RegCreateKey(HKEY_LOCAL_MACHINE, path.c_str(), &hkey) == ERROR_SUCCESS)
+	if (RegCreateKey(HKEY_CURRENT_USER, path.c_str(), &hkey) == ERROR_SUCCESS)
 	{
 		if (RegQueryValueEx(hkey, Key, nullptr, (LPDWORD)&DataType, (LPBYTE)lpBuf, (LPDWORD)&strlength) != ERROR_SUCCESS)
 			memcpy((void*)lpBuf, (void*)Default, MaxStrLength);
@@ -233,7 +247,7 @@ int ConfigReg::SetInt(INSTR Section, INSTR Key, int Value)
 
 	int ret = -1;
 
-	if (RegCreateKey(HKEY_LOCAL_MACHINE, path.c_str(), &hkey) == ERROR_SUCCESS)
+	if (RegCreateKey(HKEY_CURRENT_USER, path.c_str(), &hkey) == ERROR_SUCCESS)
 	{
 		if (RegSetValueEx(hkey, Key, 0, (DWORD)REG_DWORD, (LPBYTE)&Value, 4) == ERROR_SUCCESS)
 			ret = 1;
@@ -251,7 +265,7 @@ int ConfigReg::SetString(INSTR Section, INSTR Key, INSTR lpBuf)
 	HKEY hkey;
 	string path = m_Path + string(Section);
 	int ret = -1;
-	if (RegCreateKey(HKEY_LOCAL_MACHINE, path.c_str(), &hkey) == ERROR_SUCCESS)
+	if (RegCreateKey(HKEY_CURRENT_USER, path.c_str(), &hkey) == ERROR_SUCCESS)
 	{
 		if (RegSetValueEx(hkey, Key, 0, (DWORD)REG_SZ, (LPBYTE)lpBuf, MaxStrLength) == ERROR_SUCCESS)
 			ret = 1;

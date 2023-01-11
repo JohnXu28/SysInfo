@@ -33,6 +33,8 @@ using namespace std;
 #define INSTR LPCSTR
 #endif//UNICODE
 
+#define Config_Reg 1
+
 namespace CONFIG{
 /**
 * @defgroup	Config_Module Config Module.
@@ -164,6 +166,7 @@ main(int argc, _TINSTR* argv[]))
 
 	private:
 		string m_Path;
+		int m_Init;
 	};
 
 	class ConfigTXT
