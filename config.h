@@ -33,7 +33,8 @@ using namespace std;
 #define INSTR LPCSTR
 #endif//UNICODE
 
-#define Config_Reg 1
+#define Config_Reg 0
+#define Config_TXT 1
 
 namespace CONFIG{
 /**
@@ -180,6 +181,8 @@ main(int argc, _TINSTR* argv[]))
 		int SetInt(INSTR Section, INSTR Key, int Value);
 		int SetString(INSTR Section, INSTR Key, INSTR lpBuf);
 		int ReadTxt();
+		string FindSection(fstream& file);
+		string ReadSection(fstream& file, string& Section);		
 
 	private:
 		string m_Path;

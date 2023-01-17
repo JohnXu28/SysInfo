@@ -2,20 +2,21 @@
 #include <SysInfo\config.h>
 #include <windows.h>
 
+namespace CONFIG {
+	const int MaxStrLength = 128;
+};
+
 using namespace CONFIG;
 #if Config_NULL
 Config<CONFIG_NULL> con;
 #elif Config_Reg
 Config<ConfigReg> con;
 #elif Config_TXT
-Config<ConfigTXT>
+Config<ConfigTXT> con;
 #else //default
 Config<ConfigINI> con;
 #endif //Config
 
-namespace CONFIG {
-	const int MaxStrLength = 128;
-};
 /********************************************************************
 Config   Export Funstion
 ********************************************************************/
@@ -326,6 +327,61 @@ int ConfigTXT::SetString(INSTR Section, INSTR Key, INSTR lpBuf)
 	return 0;
 }
 
+string ConfigTXT::FindSection(fstream& file)
+{
+	string line, Section;
+	while (file >> line)
+	{
+		int index_node = (int)line.find("//");
+		if (index_node != -1)//If find out "//", skip the row! 
+			continue;
+
+		int L = line.find("[");
+		if (L != -1)
+		{
+			int R = line.find("]");
+			Section = line.substr(L + 1, R - 1);
+			break;
+		}		
+	}
+	return Section;
+}
+
+string ConfigTXT::ReadSection(fstream &file, string &Section)
+{
+	string line, key, value, NewSection;
+	map<string, string> map_ss;
+	map_ss.clear();
+	line.clear();
+	NewSection.clear();
+
+	while (file >> line)
+	{		
+		if ((int)line.find("//") != -1)
+			continue;
+
+		auto index = line.find("=");
+		if (index != -1)
+		{
+			key.clear();
+			value.clear();
+			key = line.substr(0, index);
+			value = line.substr(index + 1);
+			map_ss[key] = value;
+		}
+
+		auto index_L = line.find("[");
+		if (index_L != -1)
+		{
+			int index_R = line.find("]");
+			NewSection = line.substr(index_L + 1, index_R - 1);
+			break;
+		}
+	}
+	txt_data[Section] = map_ss;	
+	return NewSection;
+}
+
 int ConfigTXT::ReadTxt()
 {
 	fstream file;
@@ -333,73 +389,10 @@ int ConfigTXT::ReadTxt()
 	if (!file.is_open())
 		return -1;
 
-	string line, header, end("end"), last, key, value;
-	while (file >> header)
-	{
-		int index_node = (int)header.find("//");
-		if (index_node != -1)//If find out "//", skip the row! 
-		{
-			getline(file, line);
-			continue;
-		}
-		last = header;
-		last.append(end);
-
-		map<string, string> map_ss;
-		map_ss.clear();
-		line.clear();
-		getline(file, line);
-
-		for (int index = 0; index < 1000; index++)//Max(the row of each option) < 1000  	  
-		{
-			line.clear();
-			getline(file, line);
-			if (line == last)
-				break;   //when some row == header+end, break;
-
-			index_node = (int)line.find("//");
-			if (index_node != -1)
-			{
-				continue;
-			}
-
-			string c_temp;//use to store the no-space word
-
-			for (int i = 0; i < (int)line.length(); i++)
-			{
-				if (line.at(i) != ' ')
-					c_temp.push_back(line.at(i));
-			}
-
-			key.clear();
-			value.clear();
-
-			basic_string <INSTR>::size_type index_equal = c_temp.find("=");
-			if (index_equal == -1)
-			{
-				cout << "txt error: The row" << c_temp << "  = is lost!" << endl;
-				cout << "We can not process it !" << endl;
-				continue;
-			}
-
-			int check = 0;//If the INSTR is after the "=", check =1; else check = 0;
-			for (int index1 = 0; index1 < (int)c_temp.length(); index1++)
-			{
-				if (c_temp.at(index1) == ('='))
-					check = 1;
-				else
-				{
-					if (check == 0)
-						key.push_back(c_temp.at(index1));
-					else
-						value.push_back(c_temp.at(index1));
-				}
-			}
-			map_ss[key] = value;
-		}
-
-		txt_data[header] = map_ss;
-	}
+	string Section = FindSection(file);
+	
+	while (Section.empty() == 0)
+		Section = ReadSection(file, Section);
 
 	return 0;
 }
