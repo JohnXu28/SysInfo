@@ -169,11 +169,7 @@ Config Reg
 ********************************************************************/
 ConfigReg::ConfigReg()
 {
-#ifdef X64
-	m_Path = "SOFTWARE\\WOW6432Node\\";
-#else	
 	m_Path = "SOFTWARE\\";
-#endif //X64
 	m_Init = 0;
 }
 

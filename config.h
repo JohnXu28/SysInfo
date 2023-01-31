@@ -34,7 +34,7 @@ using namespace std;
 #endif//UNICODE
 
 #define Config_Reg 0
-#define Config_TXT 1
+#define Config_TXT 0
 
 namespace CONFIG{
 /**
