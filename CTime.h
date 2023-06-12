@@ -3,7 +3,7 @@
 
 #if defined(WIN32) || defined(X64)
 #include <windows.h>
-#define CurrentTime		GetTickCount64()
+#define CurrentTime		GetTickCount()
 #else
 #include "SysInfo.h"
 #define CurrentTime		time(NULL)
