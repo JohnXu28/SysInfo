@@ -1,6 +1,8 @@
 #ifndef __IO_Interface_H__
 #define __IO_Interface_H__
+#include <Windows.h>
 #include <fstream>
+
 using namespace std;
 
 class IO_INTERFACE
@@ -66,6 +68,5 @@ private:
 	IO_Buf(){};//Force using IO_Buf(Buffer, size);
 	LPBYTE m_Start = nullptr, m_End = nullptr, m_Current = nullptr;
 };
-
 
 #endif //__IO_Interface_H__
