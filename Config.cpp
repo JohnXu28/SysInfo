@@ -332,10 +332,10 @@ string ConfigTXT::FindSection(fstream& file)
 		if (index_node != -1)//If find out "//", skip the row! 
 			continue;
 
-		int L = line.find("[");
+		size_t L = line.find("[");
 		if (L != -1)
 		{
-			int R = line.find("]");
+			size_t R = line.find("]");
 			Section = line.substr(L + 1, R - 1);
 			break;
 		}		
@@ -369,7 +369,7 @@ string ConfigTXT::ReadSection(fstream &file, string &Section)
 		auto index_L = line.find("[");
 		if (index_L != -1)
 		{
-			int index_R = line.find("]");
+			size_t index_R = line.find("]");
 			NewSection = line.substr(index_L + 1, index_R - 1);
 			break;
 		}
