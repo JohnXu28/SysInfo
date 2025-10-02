@@ -1,7 +1,7 @@
 #if !defined(_SYSINFO_H__)
 #define _SYSINFO_H__
 
-#if !defined(WIN32) && !defined(X64)
+#if !defined(_WINDOWS)
 	#include <stdint.h>
 
 	typedef int8_t		INT8;
@@ -36,10 +36,6 @@
 	typedef const char*			LPCSTR;
 	//typedef int					size_t;
 	
-	#define FALSE				0
-	#define TRUE				1
-	#define nullptr				0
-
 	#ifdef Mac
 	#define HiByteFirst
 	#endif 

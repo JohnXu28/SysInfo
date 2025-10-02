@@ -1,9 +1,5 @@
 #include "stdafx.h"
-
-#if !defined(SYS_INFO)
 #include "SysInfo.h"
-#endif SYS_INFO
-
 #include "Virtual_IO.h"
 
 /***************************************************************************************
@@ -54,10 +50,11 @@ void* IO_File::GetHandle()
 /***************************************************************************************
 	IO_File(STL Version)
  ***************************************************************************************/
+#if 0
 IO_fstream::IO_fstream(const char *FileName, int option)
 {
-	m_File = new fstream(FileName, ios::binary | option);
-	if (m_File->fail() == true)
+	m_fstream = new fstream(FileName, ios::binary | option);
+	if (m_fstream->fail() == true)
 		Close();
 }
 
@@ -68,11 +65,11 @@ IO_fstream::~IO_fstream()
 
 void IO_fstream::Close()
 {
-	if (m_File != nullptr)
+	if (m_fstream != nullptr)
 	{
-		m_File->close();
-		delete m_File;
-		m_File = nullptr;
+		m_fstream->close();
+		delete m_fstream;
+		m_fstream = nullptr;
 	}
 }
 
@@ -80,11 +77,11 @@ size_t IO_fstream::Read(LPBYTE buffer, size_t size, size_t count)
 {
 	size_t TotalSize = 0;
 	
-	if (m_File != nullptr)
+	if (m_fstream != nullptr)
 	{
-		auto start = m_File->tellg();
-		m_File->read((char*)buffer, (long long)size * count);
-		auto end = m_File->tellg();
+		auto start = m_fstream->tellg();
+		m_fstream->read((char*)buffer, (long long)size * count);
+		auto end = m_fstream->tellg();
 		TotalSize = (size_t)(end - start);
 	}
 	
@@ -93,9 +90,9 @@ size_t IO_fstream::Read(LPBYTE buffer, size_t size, size_t count)
 
 size_t IO_fstream::Write(LPBYTE buffer, size_t size, size_t count)
 {
-	if (m_File != nullptr)
+	if (m_fstream != nullptr)
 	{
-		m_File->write((char*)buffer, (streamsize)size * (streamsize)count);
+		m_fstream->write((char*)buffer, (streamsize)size * (streamsize)count);
 		return (size_t)size * count;
 	}
 	else
@@ -105,9 +102,9 @@ size_t IO_fstream::Write(LPBYTE buffer, size_t size, size_t count)
 //Not check yet
 int IO_fstream::Seek(int offset, int origin)
 {	
-	if (m_File != nullptr)
+	if (m_fstream != nullptr)
 	{
-		m_File->seekg(offset, origin);
+		m_fstream->seekg(offset, origin);
 		return 0;
 	}
 	else
@@ -116,16 +113,16 @@ int IO_fstream::Seek(int offset, int origin)
 
 size_t IO_fstream::Tell()
 {
-	auto pos = m_File->tellg();
+	auto pos = m_fstream->tellg();
 	return (size_t)pos;
 }
 
 
 void* IO_fstream::GetHandle()
 {
-	return (void*)m_File;
+	return (void*)m_fstream;
 }
-
+#endif //0
 /***************************************************************************************
  ***************************************************************************************/
 IO_Buf::IO_Buf(LPBYTE Buffer, size_t Size)

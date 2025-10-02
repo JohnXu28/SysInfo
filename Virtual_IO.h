@@ -1,7 +1,12 @@
 #ifndef __IO_Interface_H__
 #define __IO_Interface_H__
+
+#if (_WINDOWS)
 #include <Windows.h>
+#endif
+
 #include <fstream>
+#include <cstring>
 
 using namespace std;
 
@@ -16,7 +21,7 @@ public:
 	virtual size_t Tell() = 0;
 	virtual void* GetHandle() = 0;
 	virtual void Close() = 0; //Same as Reset
-
+	virtual bool IsOpen() = 0; //Check if file is open
 };
 
 class IO_File: public IO_INTERFACE
@@ -30,6 +35,7 @@ public:
 	size_t Tell();
 	void* GetHandle();
 	void Close();
+	bool IsOpen() { return (m_File != nullptr); } //Check if file is open
 
 private:
 	IO_File();
@@ -47,10 +53,11 @@ public:
 	size_t Tell();
 	void* GetHandle();
 	void Close(); //Same as Reset
+	bool IsOpen() { return (m_fstream != nullptr); } //Check if file is open
 
 private:
 	IO_fstream();
-	fstream *m_File;
+	fstream *m_fstream;
 };
 
 class IO_Buf: public IO_INTERFACE
@@ -63,6 +70,7 @@ public:
 	int Seek(int offset, int origin);
 	void* GetHandle();
 	void Close(); //Same as Reset
+	bool IsOpen() { return (m_Start != nullptr && m_End != nullptr); } //Check if buffer is open
 
 private:
 	IO_Buf(){};//Force using IO_Buf(Buffer, size);
