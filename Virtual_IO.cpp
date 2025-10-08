@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "SysInfo.h"
 #include "Virtual_IO.h"
 

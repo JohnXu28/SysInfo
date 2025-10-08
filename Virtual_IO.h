@@ -2,7 +2,9 @@
 #define __IO_Interface_H__
 
 #if (_WINDOWS)
-#include <Windows.h>
+	#include <Windows.h>
+#else
+	#include "SysInfo.h"
 #endif
 
 #include <fstream>

@@ -33,8 +33,11 @@
 	typedef WORD *				LPWORD;
 	typedef DWORD *				LPDWORD;
 	typedef int*				LPINT;
+	typedef char*				LPSTR;
 	typedef const char*			LPCSTR;
+	
 	//typedef int					size_t;
+	#define MAX_PATH          260
 	
 	#ifdef Mac
 	#define HiByteFirst
