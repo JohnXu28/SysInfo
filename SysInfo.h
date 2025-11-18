@@ -46,8 +46,6 @@
 	#include <windows.h>
 	#include <stdlib.h>
 	#ifdef _DEBUG
-		#define DBG_Printf(fmt, ...)	printf("XUJY:"##fmt, ## __VA_ARGS__)
-
 		//For Memory leak detection.
 		#define _CRTDBG_MAP_ALLOC 
 		#ifndef DBG_NEW     
@@ -72,9 +70,11 @@
 #define FileNotFound		0xFFFFFFFE
 
 #ifdef _DEBUG
-	#define DBG_Printf(fmt, ...)	printf("XUJY:"##fmt, ## __VA_ARGS__)
+	#define DBG_Printf(fmt, ...)	printf("XUJY : " fmt, ## __VA_ARGS__)
+	#define DBG_Cout(...)			std::cerr << "XUJY : " << __VA_ARGS__ << std::endl;
 #else
-	#define DBG_Printf(fmt, ...)	
+	#define DBG_Printf(fmt, ...)
+	#define DBG_Cout(...)
 #endif //_DEBUG
 
 //DWORD SwapDWORD(const DWORD x);
