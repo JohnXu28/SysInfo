@@ -70,10 +70,12 @@
 #define FileNotFound		0xFFFFFFFE
 
 #ifdef _DEBUG
-	#define DBG_Printf(fmt, ...)	printf("XUJY : " fmt, ## __VA_ARGS__)
-	#define DBG_Cout(...)			std::cerr << "XUJY : " << __VA_ARGS__ << std::endl;
+	#define DBG_Printf(fmt, ...)		printf("XUJY : " fmt, ## __VA_ARGS__)
+	#define DBG_Cout_Ext(Index, ...)	std::cerr << "XUJY " << Index << ":" << __VA_ARGS__ << std::endl;
+	#define DBG_Cout(...)				std::cerr << "XUJY : " << __VA_ARGS__ << std::endl;
 #else
 	#define DBG_Printf(fmt, ...)
+	#define DBG_Cout_Ext(Index, ...)
 	#define DBG_Cout(...)
 #endif //_DEBUG
 
