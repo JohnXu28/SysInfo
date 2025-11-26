@@ -35,10 +35,10 @@
 	typedef int*				LPINT;
 	typedef char*				LPSTR;
 	typedef const char*			LPCSTR;
-	
+
 	//typedef int					size_t;
 	#define MAX_PATH          260
-	
+
 	#ifdef Mac
 	#define HiByteFirst
 	#endif 
@@ -51,7 +51,7 @@
 		#ifndef DBG_NEW     
 			#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )     
 		#endif//DBG_NEW
-		
+
 		#define new DBG_NEW 
 		#define DETECT_MEMORY_LEAKS _CrtDumpMemoryLeaks()
 		//You can using these command to find who alloc the momory.
@@ -130,13 +130,6 @@ inline void SwapWORD_Buf(LPWORD lpBuf, int Size)
 //For C++ 11
 #define ENABLE_SMART_POINTER
 
-#define LIST	0
-#if LIST
-	#define VECTOR	0
-#else
-	#define VECTOR	1
-#endif //LIST
-
 #ifdef ENABLE_SMART_POINTER
 	#define SMART_POINTER 1
 	//#define SMART_PTR(CLASS, ptr) shared_ptr<CLASS>(ptr)
@@ -147,5 +140,13 @@ inline void SwapWORD_Buf(LPWORD lpBuf, int Size)
 	#define SMART_PTR(CLASS, ptr) ptr
 	#define GetPtr(ptr) ptr
 #endif //ENABLE_SMART_POINTER
+
+#define LIST	0
+#if LIST
+#define VECTOR	0
+#else
+#define VECTOR	1
+#define FIXED_VECTOR
+#endif //LIST
 
 #endif //_SYSINFO_H__
