@@ -128,25 +128,23 @@ inline void SwapWORD_Buf(LPWORD lpBuf, int Size)
 }
 
 //For C++ 11
-#define ENABLE_SMART_POINTER
-
-#ifdef ENABLE_SMART_POINTER
+#ifdef No_Smart_Pointer
+	#define SMART_POINTER 0
+	#define SMART_PTR(CLASS, ptr) ptr
+	#define GetPtr(ptr) ptr
+#else
 	#define SMART_POINTER 1
 	//#define SMART_PTR(CLASS, ptr) shared_ptr<CLASS>(ptr)
 	#define SMART_PTR(CLASS, ptr) unique_ptr<CLASS>(ptr)
 	#define GetPtr(ptr) ptr.get()
-#else
-	#define SMART_POINTER 0
-	#define SMART_PTR(CLASS, ptr) ptr
-	#define GetPtr(ptr) ptr
 #endif //ENABLE_SMART_POINTER
 
 #define LIST	0
-#if LIST
-#define VECTOR	0
+	#if LIST
+	#define VECTOR	0
 #else
-#define VECTOR	1
-#define FIXED_VECTOR
+	#define VECTOR	1
+	//#define FIXED_VECTOR
 #endif //LIST
 
 #endif //_SYSINFO_H__
