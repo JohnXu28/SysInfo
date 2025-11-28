@@ -128,7 +128,8 @@ inline void SwapWORD_Buf(LPWORD lpBuf, int Size)
 }
 
 //For C++ 11
-#ifdef No_Smart_Pointer
+//#define NO_SMART_POINTER
+#ifdef NO_SMART_POINTER
 	#define SMART_POINTER 0
 	#define SMART_PTR(CLASS, ptr) ptr
 	#define GetPtr(ptr) ptr
