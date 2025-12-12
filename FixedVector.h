@@ -27,7 +27,7 @@ public:
 	using iterator = T*;
 	using const_iterator = const T*;
 
-	FixedVector() : _size(0) {}
+	FixedVector() : _size(0), _data{ 0 } {}
 
 	~FixedVector() {
 		clear();
