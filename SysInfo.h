@@ -3,7 +3,6 @@
 
 #if !defined(_WINDOWS)
 	#include <stdint.h>
-
 	typedef int8_t		INT8;
 	typedef uint8_t		UINT8;
 	typedef uint8_t		BYTE;
@@ -33,7 +32,7 @@
 	typedef WORD *				LPWORD;
 	typedef DWORD *				LPDWORD;
 	typedef int*				LPINT;
-	typedef char*				LPSTR;
+	typedef char*				LPSTR;	
 	typedef const char*			LPCSTR;
 
 	//typedef int					size_t;
