@@ -70,7 +70,7 @@ public:
 	bool erase(iterator iter) {
 		//if (index >= _data[_size]) return false;
 		int index = -1;
-		for (size_type i = 0; i < _size - 1; ++i)
+		for (size_type i = 0; i < _size; ++i)
 			if (&_data[i] == iter)
 			{//find index
 				index = i;
