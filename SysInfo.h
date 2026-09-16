@@ -137,7 +137,7 @@ inline void SwapWORD_Buf(LPWORD lpBuf, int Size)
 	#define SMART_POINTER 1
 	//#define SMART_PTR(CLASS, ptr) shared_ptr<CLASS>(ptr)
 	#define SMART_PTR(CLASS, ptr) unique_ptr<CLASS>(ptr)
-	#define GetPtr(ptr) ptr.get()
+	#define GetPtr(ptr) ptr.get() 
 #endif //ENABLE_SMART_POINTER
 
 #define LIST	0
@@ -145,7 +145,7 @@ inline void SwapWORD_Buf(LPWORD lpBuf, int Size)
 	#define VECTOR	0
 #else
 	#define VECTOR	1
-	//#define FIXED_VECTOR
+	//#define FIXED_VECTOR //When STL can't been used, use this macro and disable Vector.
 #endif //LIST
 
 #endif //_SYSINFO_H__
